@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
 
-  const swaggerConfig = new DocumentBuilder().setTitle(' API').setVersion('1.0').build();
+  const swaggerConfig = new DocumentBuilder().setTitle('API').setVersion('1.0').addTag('users').build();
   const swaggerDocument = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, swaggerDocument);
 
