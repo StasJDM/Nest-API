@@ -4,17 +4,21 @@ import {
   Controller,
   Post,
   Req,
+  Request,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AppRequest } from '../shared/types/app-request.type';
+import { ResultDto } from '../user/dto/result.dto';
 import { ReturnUserDto } from '../user/dto/return-user.dto';
 import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';
+import { ChangePasswordDto } from './dto/change-password.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { TokenDto } from './dto/token.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @ApiTags('auth')
@@ -50,5 +54,24 @@ export class AuthController {
   @Post('register')
   async register(@Body() registerUserDto: RegisterUserDto): Promise<User> {
     return this.authService.register(registerUserDto);
+  }
+
+  @ApiOperation({
+    summary: 'Change password',
+  })
+  @ApiBody({
+    type: ChangePasswordDto,
+  })
+  @ApiResponse({
+    type: ResultDto,
+  })
+  @UseGuards(JwtAuthGuard)
+  @Post('change-password')
+  async changePassword(
+    @Body() changePasswordDto: ChangePasswordDto,
+    @Request() req: AppRequest,
+  ): Promise<ResultDto> {
+    const { id } = req.user;
+    return this.authService.changePassword(id, changePasswordDto);
   }
 }
