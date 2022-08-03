@@ -24,11 +24,14 @@ export class UserService {
     return new ReturnUserDto(user);
   }
 
-  findByUsername(username: string): Promise<User> {
+  findByUsernameOrEmail(username: string): Promise<User> {
     return this.userRepository.findOne({
-      where: {
-        username,
-      },
+      where: [
+        {
+          username,
+        },
+        { email: username },
+      ],
     });
   }
 

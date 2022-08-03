@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AppRequest } from '../shared/types/app-request.type';
-import { ResultDto } from '../user/dto/result.dto';
+import { ResultDto } from '../shared/dto/result.dto';
 import { ReturnUserDto } from '../user/dto/return-user.dto';
 import { User } from '../user/entities/user.entity';
 import { AuthService } from './auth.service';

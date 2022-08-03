@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { AppConfig } from '../shared/types/app-config.type';
 import { ReturnUserDto } from '../user/dto/return-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { ResultDto } from '../user/dto/result.dto';
+import { ResultDto } from '../shared/dto/result.dto';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +19,7 @@ export class AuthService {
   ) {}
 
   async validateUser(username: string, password: string): Promise<Partial<User>> {
-    const user = await this.userService.findByUsername(username);
+    const user = await this.userService.findByUsernameOrEmail(username);
 
     if (!user) {
       throw new UnauthorizedException();

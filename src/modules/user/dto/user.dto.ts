@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsString, IsUUID, MinLength } from 'class-validator';
+import { IsDateString, IsEmail, IsEnum, IsString, IsUUID, MinLength } from 'class-validator';
 import { Gender } from '../enums';
 
 export class UserDto {
@@ -10,6 +10,10 @@ export class UserDto {
   @ApiProperty()
   @IsString()
   username: string;
+
+  @ApiProperty()
+  @IsEmail()
+  email: string;
 
   @ApiProperty()
   @IsString()
@@ -31,4 +35,16 @@ export class UserDto {
   @ApiProperty()
   @IsString()
   dateOfBirth: string;
+
+  @ApiProperty()
+  @IsDateString()
+  createdAt: Date;
+
+  @ApiProperty()
+  @IsDateString()
+  updatedAt: Date;
+
+  @ApiProperty()
+  @IsDateString()
+  deletedAt: Date;
 }

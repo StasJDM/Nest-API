@@ -1,8 +1,9 @@
 import { OmitType } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { User } from '../entities/user.entity';
+import { UserDto } from './user.dto';
 
-export class ReturnUserDto extends OmitType(User, ['deletedAt', 'password']) {
+export class ReturnUserDto extends OmitType(UserDto, ['deletedAt', 'password']) {
   @Exclude()
   deletedAt: Date;
 
