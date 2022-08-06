@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Get,
   Post,
   Req,
   Request,
@@ -20,6 +21,7 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { TokenDto } from './dto/token.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -73,5 +75,16 @@ export class AuthController {
   ): Promise<ResultDto> {
     const { id } = req.user;
     return this.authService.changePassword(id, changePasswordDto);
+  }
+
+  @Get('google')
+  @UseGuards(GoogleAuthGuard)
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  async googleAuth(): Promise<void> {}
+
+  @Get('google/redirect')
+  @UseGuards()
+  async googleAuthRedirect(@Req() req: AppRequest): Promise<ReturnUserDto> {
+    return this.authService.googleLogin(req);
   }
 }

@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { AppConfig } from '../shared/types/app-config.type';
 import { ReturnUserDto } from '../user/dto/return-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
+import { AppRequest } from '../shared/types/app-request.type';
 import { ResultDto } from '../shared/dto/result.dto';
 
 @Injectable()
@@ -70,6 +71,14 @@ export class AuthService {
       message: 'Пароль изменен',
       statusCode: HttpStatus.ACCEPTED,
     };
+  }
+
+  async googleLogin(req: AppRequest): Promise<ReturnUserDto> {
+    if (!req.user) {
+      throw new UnauthorizedException('User from google not found');
+    }
+
+    return new ReturnUserDto(req.user);
   }
 
   async generateHash(password: string): Promise<string> {
