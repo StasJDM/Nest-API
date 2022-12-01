@@ -10,6 +10,9 @@ import { ReturnUserDto } from '../user/dto/return-user.dto';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { AppRequest } from '../shared/types/app-request.type';
 import { ResultDto } from '../shared/dto/result.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { MailSenderService } from '../mail-sender/mail-sender.service';
+import { RestorePasswordDto } from './dto/restore-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +20,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly mailSenderService: MailSenderService,
   ) {}
 
   async validateUser(username: string, password: string): Promise<Partial<User>> {
@@ -79,6 +83,19 @@ export class AuthService {
     }
 
     return new ReturnUserDto(req.user);
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<ResultDto> {
+    const { email } = forgotPasswordDto;
+    const user = await this.userService.findByEmail(email);
+
+    await this.mailSenderService.sendForgotPasswordMessage(user);
+
+    return new ResultDto('Сообщение отправлено на почту', 200);
+  }
+
+  restorePassword(token: string, restorePasswordDto: RestorePasswordDto): ResultDto | PromiseLike<ResultDto> {
+    throw new Error('Method not implemented.');
   }
 
   async generateHash(password: string): Promise<string> {

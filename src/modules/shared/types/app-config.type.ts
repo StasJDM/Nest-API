@@ -5,4 +5,6 @@ export enum AppConfig {
   GoogleClientID = 'GOOGLE_CLIENT_ID',
   GoogleSecret = 'GOOGLE_SECRET',
   GoogleCallbackUrl = 'GOOGLE_CALLBACK_URL',
+  MailTransport = 'MAIL_TRANSPORT',
+  MailFromName = 'MAIL_FROM_NAME',
 }

@@ -3,6 +3,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Get,
+  Param,
   Post,
   Req,
   Request,
@@ -21,7 +22,9 @@ import { RegisterUserDto } from './dto/register-user.dto';
 import { TokenDto } from './dto/token.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { LocalAuthGuard } from './guards/local-auth.guard';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { RestorePasswordDto } from './dto/restore-password.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -86,5 +89,18 @@ export class AuthController {
   @UseGuards()
   async googleAuthRedirect(@Req() req: AppRequest): Promise<ReturnUserDto> {
     return this.authService.googleLogin(req);
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDto): Promise<ResultDto> {
+    return this.authService.forgotPassword(forgotPasswordDto);
+  }
+
+  @Post('restore/:token')
+  async restorePassword(
+    @Param() token: string,
+    @Body() restorePasswordDto: RestorePasswordDto,
+  ): Promise<ResultDto> {
+    return this.authService.restorePassword(token, restorePasswordDto);
   }
 }
