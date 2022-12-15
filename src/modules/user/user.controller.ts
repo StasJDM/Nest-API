@@ -26,49 +26,30 @@ import { ApiDeleteResultDto } from '../shared/dto/api-delete-result.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @ApiOperation({
-    summary: 'Find all users',
-  })
-  @ApiResponse({
-    type: ReturnUserDto,
-    isArray: true,
-  })
+  @ApiOperation({ summary: 'Find all users' })
+  @ApiResponse({ type: ReturnUserDto, isArray: true })
   @Get()
   findAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
-  @ApiOperation({
-    summary: 'Find user by id',
-  })
-  @ApiResponse({
-    type: ReturnUserDto,
-  })
+  @ApiOperation({ summary: 'Find user by id' })
+  @ApiResponse({ type: ReturnUserDto })
   @Get(':id')
   findOne(@Param('id') id: string): Promise<ReturnUserDto> {
     return this.userService.findById(id);
   }
 
-  @ApiOperation({
-    summary: 'Update user',
-  })
-  @ApiBody({
-    type: UpdateUserDto,
-  })
-  @ApiResponse({
-    type: ApiUpdateResultDto,
-  })
+  @ApiOperation({ summary: 'Update user' })
+  @ApiBody({ type: UpdateUserDto })
+  @ApiResponse({ type: ApiUpdateResultDto })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
     return this.userService.update(id, updateUserDto);
   }
 
-  @ApiOperation({
-    summary: 'Delete user by id',
-  })
-  @ApiResponse({
-    type: ApiDeleteResultDto,
-  })
+  @ApiOperation({ summary: 'Delete user by id' })
+  @ApiResponse({ type: ApiDeleteResultDto })
   @Delete(':id')
   remove(@Param('id') id: string): Promise<DeleteResult> {
     return this.userService.remove(id);

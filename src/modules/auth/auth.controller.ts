@@ -26,45 +26,27 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({
-    summary: 'Login',
-  })
-  @ApiBody({
-    type: LoginDto,
-  })
-  @ApiResponse({
-    type: TokenDto,
-  })
+  @ApiOperation({ summary: 'Login' })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({ type: TokenDto })
   @Post('login')
   @UseGuards(LocalAuthGuard)
   async login(@Req() req: AppRequest): Promise<TokenDto> {
     return this.authService.login(req.user);
   }
 
-  @ApiOperation({
-    summary: 'Register',
-  })
-  @ApiBody({
-    type: RegisterUserDto,
-  })
-  @ApiResponse({
-    type: ReturnUserDto,
-  })
+  @ApiOperation({ summary: 'Register' })
+  @ApiBody({ type: RegisterUserDto })
+  @ApiResponse({ type: ReturnUserDto })
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('register')
   async register(@Body() registerUserDto: RegisterUserDto): Promise<User> {
     return this.authService.register(registerUserDto);
   }
 
-  @ApiOperation({
-    summary: 'Change password',
-  })
-  @ApiBody({
-    type: ChangePasswordDto,
-  })
-  @ApiResponse({
-    type: ResultDto,
-  })
+  @ApiOperation({ summary: 'Change password' })
+  @ApiBody({ type: ChangePasswordDto })
+  @ApiResponse({ type: ResultDto })
   @UseGuards(JwtAuthGuard)
   @Post('change-password')
   async changePassword(
