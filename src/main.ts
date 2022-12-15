@@ -2,6 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import helmet from 'helmet';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +12,7 @@ async function bootstrap(): Promise<void> {
   SwaggerModule.setup('api', app, swaggerDocument);
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  app.use(helmet());
 
   await app.listen(3000);
 }
