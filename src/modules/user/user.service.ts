@@ -20,7 +20,7 @@ export class UserService {
   }
 
   async findById(id: string): Promise<ReturnUserDto> {
-    const user = await this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne({ where: { id } });
     return new ReturnUserDto(user);
   }
 
