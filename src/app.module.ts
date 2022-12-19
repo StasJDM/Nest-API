@@ -8,6 +8,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import { AppConfig } from './modules/shared/types/app-config.type';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { APP_GUARD } from '@nestjs/core';
       useFactory: (configService: ConfigService) => ({
         ttl: configService.get(AppConfig.RATE_LIMITER_TTL),
         limit: configService.get(AppConfig.RATE_LIMITER_LIMIT),
+        storage: new ThrottlerStorageRedisService({ password: configService.get(AppConfig.REDIS_PASSWORD) }),
       }),
     }),
     UserModule,
